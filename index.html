@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<!--
+	NOTES:
+	1. All tokens are represented by '$' sign in the template.
+	2. You can write your code only wherever mentioned.
+	3. All occurrences of existing tokens will be replaced by their appropriate values.
+	4. Blank lines will be removed automatically.
+	5. Remove unnecessary comments before creating your template.
+-->
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="authoring-tool">
+	<title>Dean Wake</title>
+	<!-- write your code here -->
+	<style>
+		a:link {
+			color: white;
+			text-decoration: none;
+		}
+
+		/* visited link */
+
+		a:visited {
+			color: white;
+			text-decoration: none;
+		}
+
+		/* mouse over link */
+
+		a:hover {
+			color: white;
+			text-decoration: none;
+		}
+
+		/* selected link */
+
+		a:active {
+			color: white;
+			text-decoration: none;
+		}
+
+		html {
+			overflow: hidden;
+			height: 100%;
+		}
+
+		body {
+			height: 100%;
+			overflow: auto;
+			background-color: black;
+			font-size: 16pt;
+			color: white;
+			font-family: 'Source Code Pro', 'Oxygen', 'Cuprum', 'Roboto Slab', sans-serif;
+		}
+
+		h2 {
+			font-size: 16pt;
+		}
+
+		.blinking {
+			animation: blinker 3s linear infinite;
+		}
+
+		@keyframes blinker {
+			50% {
+				opacity: 0;
+			}
+		}
+
+		.vertical-line {
+			border-left: 5px solid white;
+			height: 100%;
+			padding-left: 20px
+		}
+
+		#announcement {
+			font-family: 'Source Code Pro', sans-serif;
+			font-size: 35pt;
+			font-weight: 900;
+			margin-bottom: 50px;
+			word-spacing: -0.3em;
+
+		}
+
+		.section {
+			padding-left: 20px;
+			margin-bottom: 50px;
+			margin-top: 80px;
+		}
+
+		.section p {
+			margin-bottom: 30px;
+		}
+
+		.container {
+			width: 100%;
+			height: 100%;
+			position: absolute;
+			margin-left: 10%;
+			margin-right: 10%;
+			margin-top: 0%;
+			margin-bottom: auto;
+			overflow: scroll;
+
+		}
+
+		#animation_container {
+			position: fixed;
+			margin: auto;
+			left: 0;
+			right: 0;
+			top: 1;
+			bottom: 0;
+			z-index: -1;
+		}
+
+		.content {
+			background-color: rgba(0, 0, 0, 0.7);
+			margin-top: 300px;
+			margin-left: 35%;
+			padding: 20px;
+			width: 500px;
+			z-index: 100;
+
+		}
+
+		.separator {
+			border-top: 1px solid white;
+			height: 1px;
+			margin: 16px 0;
+		}
+
+		.header {
+			margin-top: 50px;
+			margin-left: 5%;
+			z-index: 101;
+		}
+
+		#social-icons {
+			margin-left: 15px;
+			margin-top: 170px;
+			font-size: 30pt;
+			position: fixed;
+			height: 160px;
+		}
+
+		#logo {
+			height: 160px;
+			margin: auto;
+			position: fixed;
+		}
+
+		#irascible-logo {
+			width: 160px;
+		}
+
+		#about-section {
+			text-align: center;
+			font-size: 12pt;
+		}
+
+		/* Mail Chimp */
+
+		#mc_embed_signup {
+			clear: left;
+			font: 'Source Code Pro', sans-serif;
+		}
+
+		#mc_embed_signup form {
+			padding: 0 !important
+		}
+
+		#mc_embed_signup .mc-field-group {
+			width: 100% !important;
+
+		}
+
+		#mc_embed_signup .indicates-required {
+			width: 100% !important;
+		}
+
+		#mc_embed_signup .button {
+			margin-top: 30px !important;
+		}
+	</style>
+	<script src="https://code.createjs.com/createjs-2015.11.26.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+	<!--
+	<link href="https://fonts.googleapis.com/css?family=Rubik" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Oxygen" rel="stylesheet">
+	-->
+
+	<link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
+	<link href="https://cdn-images.mailchimp.com/embedcode/classic-10_7.css" rel="stylesheet" type="text/css">
+	<script src="animation_hills.js"></script>
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-122331345-1"></script>
+	<script>
+		window.dataLayer = window.dataLayer || [];
+		function gtag() { dataLayer.push(arguments); }
+		gtag('js', new Date());
+
+		gtag('config', 'UA-122331345-1');
+	</script>
+
+	<script>
+
+
+		var canvas, stage, exportRoot, anim_container, dom_overlay_container, fnStartAnimation;
+		function init() {
+			canvas = document.getElementById("canvas");
+			anim_container = document.getElementById("animation_container");
+			dom_overlay_container = document.getElementById("dom_overlay_container");
+			var comp = AdobeAn.getComposition("A3DCCBA8323442ADBBB3502B030CB3E6");
+			var lib = comp.getLibrary();
+			var loader = new createjs.LoadQueue(false);
+			loader.addEventListener("fileload", function (evt) { handleFileLoad(evt, comp) });
+			loader.addEventListener("complete", function (evt) { handleComplete(evt, comp) });
+			var lib = comp.getLibrary();
+			loader.loadManifest(lib.properties.manifest);
+		}
+		function handleFileLoad(evt, comp) {
+			var images = comp.getImages();
+			if (evt && (evt.item.type == "image")) { images[evt.item.id] = evt.result; }
+		}
+		function handleComplete(evt, comp) {
+			//This function is always called, irrespective of the content. You can use the variable "stage" after it is created in token create_stage.
+			var lib = comp.getLibrary();
+			var ss = comp.getSpriteSheet();
+			var queue = evt.target;
+			var ssMetadata = lib.ssMetadata;
+			for (i = 0; i < ssMetadata.length; i++) {
+				ss[ssMetadata[i].name] = new createjs.SpriteSheet({ "images": [queue.getResult(ssMetadata[i].name)], "frames": ssMetadata[i].frames })
+			}
+			exportRoot = new lib.animation_hills_smaller();
+			stage = new lib.Stage(canvas);
+			//Registers the "tick" event listener.
+			fnStartAnimation = function () {
+				stage.addChild(exportRoot);
+				createjs.Ticker.setFPS(lib.properties.fps);
+				createjs.Ticker.addEventListener("tick", stage);
+			}
+			//Code to support hidpi screens and responsive scaling.
+			function makeResponsive(isResp, respDim, isScale, scaleType) {
+				var lastW, lastH, lastS = 1;
+				window.addEventListener('resize', resizeCanvas);
+				resizeCanvas();
+				function resizeCanvas() {
+					var w = lib.properties.width, h = lib.properties.height;
+					var iw = window.innerWidth, ih = window.innerHeight;
+					var pRatio = window.devicePixelRatio || 1, xRatio = iw / w, yRatio = ih / h, sRatio = 1;
+					if (isResp) {
+						if ((respDim == 'width' && lastW == iw) || (respDim == 'height' && lastH == ih)) {
+							sRatio = lastS;
+						}
+						else if (!isScale) {
+							if (iw < w || ih < h)
+								sRatio = Math.min(xRatio, yRatio);
+						}
+						else if (scaleType == 1) {
+							sRatio = Math.min(xRatio, yRatio);
+						}
+						else if (scaleType == 2) {
+							sRatio = Math.max(xRatio, yRatio);
+						}
+					}
+					canvas.width = w * pRatio * sRatio;
+					canvas.height = h * pRatio * sRatio;
+					canvas.style.width = dom_overlay_container.style.width = anim_container.style.width = w * sRatio + 'px';
+					canvas.style.height = anim_container.style.height = dom_overlay_container.style.height = h * sRatio + 'px';
+					stage.scaleX = pRatio * sRatio;
+					stage.scaleY = pRatio * sRatio;
+					lastW = iw; lastH = ih; lastS = sRatio;
+					stage.tickOnUpdate = false;
+					stage.update();
+					stage.tickOnUpdate = true;
+				}
+			}
+			makeResponsive(false, 'both', true, 1);
+			AdobeAn.compositionLoaded(lib.properties.id);
+			fnStartAnimation();
+		}
+	</script>
+	<!-- write your code here -->
+</head>
+
+<body onload="init();" style="margin:0px;">
+	<div class="container">
+		<div class="header">
+			<div class="header-left">
+				<img alt="Dean Wake Logo" src="images/dean-wake-logo-02_inverted.svg" id="logo">
+			</div>
+			<div id="social-icons">
+				<a target="_blank" href="https://www.instagram.com/deanwakeband/">
+					<i class="fa fa-instagram" title="Instagram"></i>
+				</a>
+				<a target="_blank" href="https://www.facebook.com/Dean-Wake-113178252085227/">
+					<i class="fa fa-facebook" title="Facebook"></i>
+				</a>
+				<a target="_blank" href="https://youtu.be/_oUjpmaclpk">
+					<i class="fa fa-youtube-play" title="Youtube"></i>
+				</a>
+
+			</div>
+
+
+		</div>
+
+		<div class="content">
+			<div id="announcement" class="vertical-line">
+				<div>EP RELEASE PARTY</div>
+				<div>GASKESSEL, BERN</div>
+				<div>SA 15.09.2018</div>
+				<a class="blinking" href="http://www.gaskessel.ch/sa-15-09-18-dean-wakech-plattentaufe-rock-pop/">TICKETS</a>
+			</div>
+			<div class="section">
+				<p>This year we will celebrate the release of our new EP Everything Quiet with some very special guests...
+					<a href="http://www.gaskessel.ch/sa-15-09-18-dean-wakech-plattentaufe-rock-pop/">get your ticket now!</a>
+				</p>
+				<iframe width="480" height="300" src="https://www.youtube.com/embed/_oUjpmaclpk?rel=0" frameborder="0" allow="autoplay; encrypted-media"
+				 allowfullscreen></iframe>
+			</div>
+
+			<div class="section">
+				<h2>GIGS</h2>
+				<div class="separator"></div>
+				<div class="gigs">
+					<a href="http://www.kaeptnholger.ch/">So 26.08.2018 Käpt'n Holger, Langnau</a>
+					<br>
+					<a href="http://www.gaskessel.ch/sa-15-09-18-dean-wakech-plattentaufe-rock-pop">Sa 15.09.2018 Gaskessel, Bern</a>
+					<br>
+					<a href="http://www.gotthard-bar.ch/">Do 27.09.2018 Gotthard Bar, Zürich</a>
+					<br>
+					<a href="https://www.meck.ch/">Sa 27.10.2018 Meck, Frick</a>
+					<br>
+					<a href="http://cafete.ch/">Sa 03.11.2018 Cafete, Bern</a>
+					<br>
+					<a href="https://www.mokka.ch/">Do 29.11.2018 Mokka, Thun</a>
+					<br>
+				</div>
+			</div>
+
+			<div class="section">
+				<h2>NEWSLETTER</h2>
+				<div class="separator"></div>
+				<!-- Begin MailChimp Signup Form -->
+				<div id="mc_embed_signup">
+					<form action="https://deanwake.us17.list-manage.com/subscribe/post?u=a31bb7b466ab0d8603d952e20&amp;id=ec824b576e" method="post"
+					 id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+
+						<div id="mc_embed_signup_scroll">
+							<div class="indicates-required">
+								<!-- <span class="asterisk">*</span> indicates required</div>-->
+								<div class="mc-field-group">
+									<label for="mce-FNAME">First Name </label>
+									<input type="text" value="" name="FNAME" class="" id="mce-FNAME">
+								</div>
+								<div class="mc-field-group">
+									<label for="mce-EMAIL">Email Address
+										<span class="asterisk">*</span>
+									</label>
+									<input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL">
+								</div>
+								<div id="mce-responses" class="clear">
+									<div class="response" id="mce-error-response" style="display:none"></div>
+									<div class="response" id="mce-success-response" style="display:none"></div>
+								</div>
+								<!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+								<div style="position: absolute; left: -5000px;" aria-hidden="true">
+									<input type="text" name="b_a31bb7b466ab0d8603d952e20_ec824b576e" tabindex="-1" value="">
+								</div>
+								<div class="clear">
+									<input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" class="button">
+								</div>
+							</div>
+					</form>
+					</div>
+				</div>
+				<!--End mc_embed_signup-->
+
+				<div class="section" id="about-section">
+					<p>
+						Promo/Press:<br><br>
+						<a href="https://irascible.ch/">
+							<img alt="Irascible Logo" src="images/irascible_inverted.png" id="irascible-logo">
+						</a>
+					</p>
+					<p>Contact: info@deanwake.com
+						<br> Booking: booking@deanwake.com
+						<br> Black Shell Records
+						<br> © Dean Wake 2018</p>
+				</div>
+			</div>
+		</div>
+		<div id="animation_container" style="background-color:rgba(0, 0, 0, 1.00); width:1920px; height:1280px">
+			<canvas id="canvas" width="1920" height="1280" style="position: absolute; display: block; background-color:rgba(0, 0, 0, 1.00);"></canvas>
+			<div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:1920px; height:1280px; position: absolute; left: 0px; top: 0px; display: block;">
+			</div>
+		</div>
+
+
+</body>
+
+</html>
